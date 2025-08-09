@@ -43,8 +43,6 @@ def generate_pdf(df: pd.DataFrame, bar_img_bytes: bytes, pie_img_bytes: bytes) -
         pdf.ln()
 
     pdf.ln(10)
-    pdf.set_font("Arial", 'B', 14)
-    pdf.cell(0, 10, "Activity Counts Summary", ln=True)
 
     if bar_img_bytes:
         bar_img_file = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
@@ -57,7 +55,6 @@ def generate_pdf(df: pd.DataFrame, bar_img_bytes: bytes, pie_img_bytes: bytes) -
             os.unlink(bar_img_file.name)
 
     pdf.ln(10)
-    pdf.cell(0, 10, "Anomaly Status Distribution", ln=True)
 
     if pie_img_bytes:
         pie_img_file = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
@@ -189,7 +186,7 @@ def main():
         if not filtered.empty:
             pdf_bytes = generate_pdf(filtered, None, None)  # no images to avoid kaleido errors
             st.download_button(
-                label="Download Report as PDF (includes charts)",
+                label="Download PDF (includes charts)",
                 data=pdf_bytes,
                 file_name="insider_threat_report.pdf",
                 mime="application/pdf"
