@@ -13,9 +13,9 @@ def load_model():
 
 def color_status(val):
     if val == 'Suspicious':
-        color = '#f8d7da'  # Light red background
+        color = '#ff0000'  #  red background
     elif val == 'Normal':
-        color = '#d4edda'  # Light green background
+        color = '#00ff00'  #  green background
     else:
         color = ''
     return f'background-color: {color}'
