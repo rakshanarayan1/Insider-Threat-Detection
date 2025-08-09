@@ -46,27 +46,28 @@ def generate_pdf(df: pd.DataFrame, bar_img_bytes: bytes, pie_img_bytes: bytes) -
     pdf.set_font("Arial", 'B', 14)
     pdf.cell(0, 10, "Activity Counts Summary", ln=True)
 
-    bar_img_file = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
-    try:
-        bar_img_file.write(bar_img_bytes)
-        bar_img_file.flush()
-        pdf.image(bar_img_file.name, x=None, y=None, w=180)
-    finally:
-        bar_img_file.close()
+    if bar_img_bytes:
+        bar_img_file = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
+        try:
+            bar_img_file.write(bar_img_bytes)
+            bar_img_file.flush()
+            pdf.image(bar_img_file.name, x=None, y=None, w=180)
+        finally:
+            bar_img_file.close()
+            os.unlink(bar_img_file.name)
 
     pdf.ln(10)
     pdf.cell(0, 10, "Anomaly Status Distribution", ln=True)
 
-    pie_img_file = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
-    try:
-        pie_img_file.write(pie_img_bytes)
-        pie_img_file.flush()
-        pdf.image(pie_img_file.name, x=None, y=None, w=120)
-    finally:
-        pie_img_file.close()
-
-    os.unlink(bar_img_file.name)
-    os.unlink(pie_img_file.name)
+    if pie_img_bytes:
+        pie_img_file = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
+        try:
+            pie_img_file.write(pie_img_bytes)
+            pie_img_file.flush()
+            pdf.image(pie_img_file.name, x=None, y=None, w=120)
+        finally:
+            pie_img_file.close()
+            os.unlink(pie_img_file.name)
 
     return pdf.output(dest='S').encode('latin1')
 
@@ -182,19 +183,18 @@ def main():
         fig_pie.update_layout(width=450, height=450, title_text=None, showlegend=True)
         st.plotly_chart(fig_pie)
 
-        # Get images for PDF
-       st.plotly_chart(fig_bar)
-       st.plotly_chart(fig_pie)
+        # Show bar chart interactively instead of converting to image
+        st.plotly_chart(fig_bar)
+        st.plotly_chart(fig_pie)
 
-       if not filtered.empty:
-           pdf_bytes = generate_pdf(filtered, None, None)  # no images
-           st.download_button(
-               label="Download Report as PDF (includes charts)",
-               data=pdf_bytes,
-               file_name="insider_threat_report.pdf",
-               mime="application/pdf"
-           )
-)
+        if not filtered.empty:
+            pdf_bytes = generate_pdf(filtered, None, None)  # no images to avoid kaleido errors
+            st.download_button(
+                label="Download Report as PDF (includes charts)",
+                data=pdf_bytes,
+                file_name="insider_threat_report.pdf",
+                mime="application/pdf"
+            )
 
 if __name__ == "__main__":
     main()
