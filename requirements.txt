@@ -3,3 +3,4 @@ pandas
 joblib
 fpdf
 plotly
+scikit-learn
