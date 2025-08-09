@@ -4,3 +4,5 @@ joblib
 fpdf
 plotly
 scikit-learn
+kaleido
+
