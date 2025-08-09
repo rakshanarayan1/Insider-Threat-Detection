@@ -194,7 +194,7 @@ def main():
                file_name="insider_threat_report.pdf",
                mime="application/pdf"
            )
-           )
+)
 
 if __name__ == "__main__":
     main()
