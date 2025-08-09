@@ -146,23 +146,10 @@ def main():
         styled_df = filtered[['logon_count', 'http_count', 'device_count', 'status']].style.applymap(color_status, subset=['status'])
         st.dataframe(styled_df)
 
-        # Activity Counts Summary - display native Streamlit bar chart
+        # Activity Counts Summary - native Streamlit bar chart
         st.write("### Activity Counts Summary")
         summary = filtered[['logon_count', 'http_count', 'device_count']].sum()
         st.bar_chart(summary)
-
-        # Generate Plotly bar chart ONLY for PDF image export
-        summary_df = summary.reset_index()
-        summary_df.columns = ['Activity', 'Count']
-        fig_bar = px.bar(
-            summary_df,
-            x='Activity',
-            y='Count',
-            text='Count',
-            color='Activity',
-            color_discrete_map={'logon_count': '#5DADE2', 'http_count': '#48C9B0', 'device_count': '#F5B041'}
-        )
-        fig_bar.update_traces(textposition='outside')
 
         # Anomaly Status Distribution - pie chart with Plotly
         st.write("### Anomaly Status Distribution")
@@ -179,14 +166,13 @@ def main():
         fig_pie.update_traces(textposition='inside', textinfo='percent+label', hoverinfo='label+percent')
         fig_pie.update_layout(width=450, height=450, title_text=None, showlegend=True)
 
-        # Show charts with unique keys to avoid StreamlitDuplicateElementId error
+        # Show only pie chart here — removed extra bar chart below
         st.plotly_chart(fig_pie, key="pie_chart")
-        st.plotly_chart(fig_bar, key="bar_chart")
 
         if not filtered.empty:
-            pdf_bytes = generate_pdf(filtered, None, None)  # no images to avoid kaleido errors
+            pdf_bytes = generate_pdf(filtered, None, None)  # no images for now
             st.download_button(
-                label="Download PDF (includes charts)",
+                label="Download PDF",
                 data=pdf_bytes,
                 file_name="insider_threat_report.pdf",
                 mime="application/pdf"
