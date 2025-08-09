@@ -181,11 +181,10 @@ def main():
         )
         fig_pie.update_traces(textposition='inside', textinfo='percent+label', hoverinfo='label+percent')
         fig_pie.update_layout(width=450, height=450, title_text=None, showlegend=True)
-        st.plotly_chart(fig_pie)
 
-        # Show bar chart interactively instead of converting to image
-        st.plotly_chart(fig_bar)
-        st.plotly_chart(fig_pie)
+        # Show charts with unique keys to avoid StreamlitDuplicateElementId error
+        st.plotly_chart(fig_pie, key="pie_chart")
+        st.plotly_chart(fig_bar, key="bar_chart")
 
         if not filtered.empty:
             pdf_bytes = generate_pdf(filtered, None, None)  # no images to avoid kaleido errors
