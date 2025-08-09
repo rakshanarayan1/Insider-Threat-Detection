@@ -12,13 +12,7 @@ def load_model():
     return joblib.load('model_store/iforest_model.joblib')
 
 def color_status(val):
-    if val == 'Suspicious':
-        color = '#ff0000'  #  red background
-    elif val == 'Normal':
-        color = '#00ff00'  #  green background
-    else:
-        color = ''
-    return f'background-color: {color}'
+    return ''  # no background color or styling
 
 def fig_to_image_bytes(fig):
     return pio.to_image(fig, format='png')
