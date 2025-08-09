@@ -183,17 +183,18 @@ def main():
         st.plotly_chart(fig_pie)
 
         # Get images for PDF
-        bar_img_bytes = fig_to_image_bytes(fig_bar)
-        pie_img_bytes = fig_to_image_bytes(fig_pie)
+       st.plotly_chart(fig_bar)
+       st.plotly_chart(fig_pie)
 
-        if not filtered.empty:
-            pdf_bytes = generate_pdf(filtered, bar_img_bytes, pie_img_bytes)
-            st.download_button(
-                label="Download Report as PDF (includes charts)",
-                data=pdf_bytes,
-                file_name="insider_threat_report.pdf",
-                mime="application/pdf"
-            )
+       if not filtered.empty:
+           pdf_bytes = generate_pdf(filtered, None, None)  # no images
+           st.download_button(
+               label="Download Report as PDF (includes charts)",
+               data=pdf_bytes,
+               file_name="insider_threat_report.pdf",
+               mime="application/pdf"
+           )
+           )
 
 if __name__ == "__main__":
     main()
