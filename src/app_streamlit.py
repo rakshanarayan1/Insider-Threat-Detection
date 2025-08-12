@@ -51,19 +51,8 @@ def generate_pdf(df: pd.DataFrame) -> bytes:
 def main():
     st.title("Insider Threat Detection Dashboard")
 
-    st.write("### **How to use:**")
-    st.markdown("""
-- **Option 1:** Upload a single structured features CSV  
-  - Columns: `logon_count`, `http_count`, `device_count`  
-  - Index column should be the user name/ID  
-- **Option 2:** Upload three raw log files at once:  
-  - `logon.csv` (must have a `user` column)  
-  - `http.csv` (parsed as ['id','date','user','pc','url'])  
-  - `device.csv` (must have a `user` column)  
-- **If you upload nothing, demo data from `features.csv` in your repo will be used.
-""")
 
-    uploaded_files = st.file_uploader(
+  uploaded_files = st.file_uploader(
         "Upload features.csv OR all three raw logs (logon.csv, http.csv, device.csv):",
         type=['csv'],
         accept_multiple_files=True
