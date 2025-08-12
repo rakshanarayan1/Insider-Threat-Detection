@@ -48,20 +48,10 @@ def generate_pdf(df: pd.DataFrame) -> bytes:
 
 def main():
     st.title("Insider Threat Detection Dashboard")
-    # st.write("### **How to use:**")
-    # st.markdown(
-    #     "- **Option 1:** Upload a single structured features CSV\n"
-    #     "  - Columns: `logon_count`, `http_count`, `device_count`\n"
-    #     "  - Index column should be the user name/ID\n"
-    #     "- **Option 2:** Upload three raw log files at once:\n"
-    #     "  - `logon.csv` (must have a `user` column)\n"
-    #     "  - `http.csv` (parsed as ['id','date','user','pc','url'])\n"
-    #     "  - `device.csv` (must have a `user` column)\n"
-    #     "- **If you upload nothing, demo data from `features.csv` in your repo will be used."
-    # )
+
 
     uploaded_files = st.file_uploader(
-        "Upload features.csv OR all three raw logs (logon.csv, http.csv, device.csv):",
+        "Upload structured .csv file OR all three raw logs (logon.csv, http.csv, device.csv):",
         type=['csv'],
         accept_multiple_files=True
     )
@@ -88,7 +78,7 @@ def main():
                 st.success("Raw log files detected: running feature engineering...")
                 features = run_feature_engineering_from_files(logon_file, http_file, device_file)
     else:
-        st.info("No upload detected, using default features.csv from repo.")
+        st.info("No upload detected, showing default data")
         root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
         features_path = os.path.join(root_path, 'features.csv')
         features = pd.read_csv(features_path, index_col=0)
