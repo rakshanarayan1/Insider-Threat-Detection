@@ -4,9 +4,7 @@ import joblib
 import plotly.express as px
 from fpdf import FPDF
 import os
-import tempfile
 
-################
 # Feature Engineering Helper
 def run_feature_engineering_from_files(logon_file, http_file, device_file):
     # logon and device: default headers
@@ -50,9 +48,19 @@ def generate_pdf(df: pd.DataFrame) -> bytes:
 
 def main():
     st.title("Insider Threat Detection Dashboard")
+    # st.write("### **How to use:**")
+    # st.markdown(
+    #     "- **Option 1:** Upload a single structured features CSV\n"
+    #     "  - Columns: `logon_count`, `http_count`, `device_count`\n"
+    #     "  - Index column should be the user name/ID\n"
+    #     "- **Option 2:** Upload three raw log files at once:\n"
+    #     "  - `logon.csv` (must have a `user` column)\n"
+    #     "  - `http.csv` (parsed as ['id','date','user','pc','url'])\n"
+    #     "  - `device.csv` (must have a `user` column)\n"
+    #     "- **If you upload nothing, demo data from `features.csv` in your repo will be used."
+    # )
 
-
-  uploaded_files = st.file_uploader(
+    uploaded_files = st.file_uploader(
         "Upload features.csv OR all three raw logs (logon.csv, http.csv, device.csv):",
         type=['csv'],
         accept_multiple_files=True
@@ -96,15 +104,18 @@ def main():
             min_logon, max_logon = col1.slider(
                 "Logon Count",
                 int(features['logon_count'].min()), int(features['logon_count'].max()),
-                (int(features['logon_count'].min()), int(features['logon_count'].max())))
+                (int(features['logon_count'].min()), int(features['logon_count'].max()))
+            )
             min_http, max_http = col2.slider(
                 "HTTP Count",
                 int(features['http_count'].min()), int(features['http_count'].max()),
-                (int(features['http_count'].min()), int(features['http_count'].max())))
+                (int(features['http_count'].min()), int(features['http_count'].max()))
+            )
             min_device, max_device = col3.slider(
                 "Device Count",
                 int(features['device_count'].min()), int(features['device_count'].max()),
-                (int(features['device_count'].min()), int(features['device_count'].max())))
+                (int(features['device_count'].min()), int(features['device_count'].max()))
+            )
             status_filter = st.multiselect(
                 "Anomaly Status", options=['Normal', 'Suspicious'],
                 default=['Normal', 'Suspicious']
