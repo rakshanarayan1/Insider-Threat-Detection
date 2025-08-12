@@ -1,3 +1,31 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4bd164cf0effd920a4e71d2874cea557f6a33af87f0fec71abcbb4aedc6280b6
-size 1310
+user,logon_count,http_count,device_count
+user1,15,120,2
+user2,10,90,1
+user3,8,65,0
+user4,20,200,3
+user5,12,150,1
+user6,6,40,0
+user7,18,175,2
+user8,14,110,1
+user9,9,55,0
+user10,11,85,1
+user11,7,95,0
+user12,13,130,2
+user13,16,160,1
+user14,5,35,0
+user15,17,140,2
+user16,12,100,1
+user17,8,75,0
+user18,15,180,3
+user19,10,90,1
+user20,7,50,0
+user21,14,125,2
+user22,11,105,1
+user23,12,115,1
+user24,9,80,0
+user25,13,95,1
+user26,6,45,0
+user27,8,60,0
+user28,15,150,2
+user29,12,100,1
+user30,9,70,0
